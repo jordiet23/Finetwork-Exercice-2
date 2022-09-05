@@ -2,55 +2,54 @@ package com.finetwork.Exercice2.clients.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.persistence.Column;
+
 public class ClientDto {
 
-    private Long id;
+    private String name;
 
-    private Long templateId;
+    private String email;
 
-    private String[] receivers;
+    private Integer phone;
 
-    private Boolean isOperator;
-
-    private Integer priority;
-
-    private String createdBy;
-
+    private String dni;
     public ClientDto() {
     }
 
-    public ClientDto(Long templateId, String[] receivers, Boolean isOperator, Integer priority, String createdBy) {
-        this.templateId = templateId;
-        this.receivers = receivers;
-        this.isOperator = isOperator;
-        this.priority = priority;
-        this.createdBy = createdBy;
+    public ClientDto(String name, String email, Integer phone, String dni) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.dni = dni;
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public Long getTemplateId() {
-        return templateId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String[] getReceivers() {
-        return receivers;
+    public String getEmail() {
+        return email;
     }
 
-    public Boolean getIsOperator() {
-        return isOperator;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Integer getPriority() {
-        return priority;
+    public Integer getPhone() {
+        return phone;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 
+    public String getDni() {
+        return dni;
+    }
     public String toJson() {
         try {
             return new ObjectMapper().writeValueAsString(this);

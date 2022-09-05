@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/massive")
+@RequestMapping("/client")
 public class ClientController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -24,7 +24,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @RequestMapping(value = "/sms", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Client> createMassiveSms(@RequestBody ClientDto clientDto) throws Exception {
         log.info("MassiveSmsController#createMassiveSms with body : " + clientDto.toJson());
 

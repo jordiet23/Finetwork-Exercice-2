@@ -39,7 +39,7 @@ public class ClientService {
         return clients;
     }
 
-    public Client getCLientById(Long id){
+    public Client getCLientById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
         return client.orElse(null);
     }
@@ -57,9 +57,9 @@ public class ClientService {
         return client;
     }
 
-    public Boolean deleteClientById(Long id){
+    public Boolean deleteClientById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
-        if(client.isPresent()) {
+        if (client.isPresent()) {
             clientRepository.deleteById(id);
             return true;
         }
@@ -69,7 +69,7 @@ public class ClientService {
 
     public Client updateClientById(Long id, JsonPatch patch) throws JsonPatchException, JsonProcessingException {
         Optional<Client> optionalClient = clientRepository.findById(id);
-        if(optionalClient.isPresent()) {
+        if (optionalClient.isPresent()) {
             Client client = optionalClient.get();
             ClientUpdateDto clientUpdateDto = new ClientUpdateDto(client.getName(), client.getPhone());
             ClientUpdateDto clientPached = applyPatchToCustomer(patch, clientUpdateDto);

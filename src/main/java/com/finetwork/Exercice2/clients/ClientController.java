@@ -30,7 +30,8 @@ public class ClientController {
     public ResponseEntity<Page<Client>> getAllClients(@RequestParam(defaultValue = "0") Integer page,
                                                       @RequestParam(defaultValue = "10") Integer size,
                                                       @RequestParam(defaultValue = "asc") String order) {
-        return new ResponseEntity<>(clientService.getAllClients(page, size, order), HttpStatus.OK);
+        Page<Client> result = clientService.getAllClients(page, size, order);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -46,9 +47,13 @@ public class ClientController {
     public ResponseEntity<Client> createMassiveSms(@RequestBody ClientDto clientDto) throws Exception {
         log.info("MassiveSmsController#createMassiveSms with body : " + clientDto.toJson());
 
-        Client response = clientService.createClient(clientDto);
+        try {
+            Client response = clientService.createClient(clientDto);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

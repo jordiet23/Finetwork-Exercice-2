@@ -1,12 +1,16 @@
 package com.finetwork.Exercice2.clients.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.finetwork.Exercice2.clients.ClientListener;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "fi_client")
+@EntityListeners({
+        ClientListener.class,
+})
 public class Client {
 
     @Id
@@ -43,6 +47,16 @@ public class Client {
     }
 
     public Client() {
+    }
+
+    public Client(Long id, String dni, String name, String email, Integer phone, Date createdAt, Date updatedAt) {
+        this.id = id;
+        this.dni = dni;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {

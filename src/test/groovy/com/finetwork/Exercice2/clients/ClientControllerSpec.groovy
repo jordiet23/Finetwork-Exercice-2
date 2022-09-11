@@ -22,23 +22,47 @@ class ClientControllerSpec extends Specification {
 
     private MockMvc mvc
 
-    private List<Client> listOfCharacters = new ArrayList<>(List.of(new Client(1,"21695536G","JB", "ordibeldaa#gmail.com", 666666666, new Date(), new Date())));
-
-    private Pageable pageable = PageRequest.of(0, 10);
-
-    private Page<Client> pageResponse = new PageImpl<>(listOfCharacters as List<Client>, pageable, 1)
+    private ClientController controller
 
     void setup() throws Exception {
-        mvc = MockMvcBuilders.standaloneSetup(new ClientController(clientService)).build()
+        controller = new ClientController(clientService)
+        mvc = MockMvcBuilders.standaloneSetup(controller).build()
     }
 
     def "get all clients"() {
         given: "a valid request to get clients"
-        String page = "0"
-        String size = "10"
+        String page = 0
+        String size = 10
         String order = "asc"
-        and: "there are clients in the database"
-        1 * clientService.getAllClients(page,size,order) >> pageResponse
+        and: "database is not empty"
+        List<Client> ListOfClients = new ArrayList<>(List.of(new Client(1,"21695536G","JB", "ordibeldaa#gmail.com", 666666666, new Date(), new Date())));
+
+        Pageable pageable = PageRequest.of(Integer.parseInt(page),Integer.parseInt(size));
+
+        Page<Client> pageResponse = new PageImpl<>(ListOfClients as List<Client>, pageable, 1)
+
+        1 * clientService.getAllClients(Integer.parseInt(page),Integer.parseInt(size),order) >> pageResponse
+
+        expect: "Status is 200 and the response has correct message"
+        mvc.perform(MockMvcRequestBuilders.get("/clients/all").queryParam("page", page).queryParam("size", size).queryParam("order", order))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+                .response
+    }
+
+    def "get all empty clients"() {
+        given: "a valid request to get clients"
+        String page = 0
+        String size = 10
+        String order = "asc"
+        and: "database IS empty"
+        List<Client> ListOfClients = new ArrayList<>();
+
+        Pageable pageable = PageRequest.of(Integer.parseInt(page),Integer.parseInt(size));
+
+        Page<Client> pageResponse = new PageImpl<>(ListOfClients as List<Client>, pageable, 1)
+
+        1 * clientService.getAllClients(Integer.parseInt(page),Integer.parseInt(size),order) >> pageResponse
 
         expect: "Status is 200 and the response has correct message"
         mvc.perform(MockMvcRequestBuilders.get("/clients/all").queryParam("page", page).queryParam("size", size).queryParam("order", order))

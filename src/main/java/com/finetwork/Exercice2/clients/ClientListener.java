@@ -24,7 +24,7 @@ public class ClientListener<T> {
     }
 
     private void sendSMS(Client client) {
-        System.out.println("Se va a enviar un mensaje al cliente " + client.getName() + "por SMS al teléfono " + client.getPhone());
+        System.out.println("Se va a enviar un mensaje al cliente " + client.getName() + " por SMS al teléfono " + client.getPhone());
     }
 
 }
